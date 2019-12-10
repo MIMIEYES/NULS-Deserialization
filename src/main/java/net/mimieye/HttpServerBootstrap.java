@@ -26,6 +26,10 @@ package net.mimieye;
 import net.mimieye.core.core.ioc.SpringLiteContext;
 import net.mimieye.server.RpcServerManager;
 
+import java.io.IOException;
+import java.io.InputStream;
+import java.util.Properties;
+
 /**
  * @author: PierreLuo
  * @date: 2019-07-10
@@ -33,6 +37,17 @@ import net.mimieye.server.RpcServerManager;
 public class HttpServerBootstrap {
     public static void main(String[] args) {
         SpringLiteContext.init("net.mimieye");
-        RpcServerManager.getInstance().startServer("0.0.0.0", 9898);
+        initConfig();
+        RpcServerManager.getInstance().startServer(System.getProperty("ip", "127.0.0.1"), Integer.parseInt(System.getProperty("port", "9898")));
+    }
+
+    private static void initConfig() {
+        try(InputStream in = HttpServerBootstrap.class.getClassLoader().getResourceAsStream("server.properties")) {
+            Properties properties = new Properties();
+            properties.load(in);
+            properties.stringPropertyNames().stream().forEach(name -> System.setProperty(name, String.valueOf(properties.get(name))));
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
     }
 }

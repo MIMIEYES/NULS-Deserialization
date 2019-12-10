@@ -2,7 +2,7 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <title>ajax请求json数据</title>
+    <title>NULS Deserialization</title>
     <link rel="stylesheet" type="text/css" href="/css/jquery.jsonview.min.css" />
     <script type="text/javascript" src="http://code.jquery.com/jquery.min.js"></script>
     <script type="text/javascript" src="/js/jquery.jsonview.min.js"></script>
@@ -13,33 +13,6 @@
                 $('#json1').JSONView('toggle');
             });
         });
-        $(function() {
-            $('#toggle-btn2').on('click', function() {
-                $('#json2').JSONView('toggle');
-            });
-        });
-        // $(function(){
-        //     $.ajax({
-        //         //请求方式
-        //         type:"POST",
-        //         //文件位置
-        //         url:"/api/jsonrpc/",
-        //         headers:{'Content-Type':'application/json;charset=utf-8'},
-        //         data: JSON.stringify(org),
-        //         //返回数据格式为json,也可以是其他格式如
-        //         dataType: "json",
-        //         //请求成功后要执行的函数，拼接html
-        //         success: function(obj){
-        //             if(obj.result) {
-        //                 $("#json").JSONView(obj.result);
-        //                 // $("div").append(JSON.stringify(obj.result));
-        //             } else {
-        //                 $("#json").JSONView(obj);
-        //                 // $("div").append(JSON.stringify(obj));
-        //             }
-        //         }
-        //     });
-        // });
         $(document).ready(function(){
             $('#Form1').bind('submit', function(){
                 var dataPara = getFormJson(this);
@@ -47,6 +20,12 @@
                 org.params = [dataPara.chainId, dataPara.txHex, dataPara.prefix];
                 ajaxSubmit(this, 1);
                 return false;
+            });
+        });
+
+        $(function() {
+            $('#toggle-btn2').on('click', function() {
+                $('#json2').JSONView('toggle');
             });
         });
         $(document).ready(function(){
