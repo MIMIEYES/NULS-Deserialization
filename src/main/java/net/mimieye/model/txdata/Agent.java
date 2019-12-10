@@ -26,6 +26,7 @@
 package net.mimieye.model.txdata;
 
 
+import io.nuls.base.basic.AddressTool;
 import io.nuls.base.basic.NulsByteBuffer;
 import io.nuls.base.basic.NulsOutputStreamBuffer;
 import io.nuls.base.data.Address;
@@ -38,6 +39,7 @@ import io.nuls.core.rpc.model.ApiModelProperty;
 
 import java.io.IOException;
 import java.math.BigInteger;
+import java.util.Arrays;
 import java.util.HashSet;
 import java.util.Set;
 
@@ -287,5 +289,40 @@ public class Agent extends BaseNulsData {
 
     public void setAlais(String alais) {
         this.alais = alais;
+    }
+
+    @Override
+    public String toString() {
+        final StringBuilder sb = new StringBuilder("{");
+        sb.append("\"agentAddress\":")
+                .append('\"').append(AddressTool.getStringAddressByBytes(agentAddress)).append('\"');
+        sb.append(",\"packingAddress\":")
+                .append('\"').append(AddressTool.getStringAddressByBytes(packingAddress)).append('\"');
+        sb.append(",\"rewardAddress\":")
+                .append('\"').append(AddressTool.getStringAddressByBytes(rewardAddress)).append('\"');
+        sb.append(",\"deposit\":")
+                .append('\"').append(deposit).append('\"');
+        sb.append(",\"commissionRate\":")
+                .append(commissionRate);
+        sb.append(",\"time\":")
+                .append(time);
+        sb.append(",\"blockHeight\":")
+                .append(blockHeight);
+        sb.append(",\"delHeight\":")
+                .append(delHeight);
+        sb.append(",\"status\":")
+                .append(status);
+        sb.append(",\"creditVal\":")
+                .append(creditVal);
+        sb.append(",\"totalDeposit\":")
+                .append('\"').append(totalDeposit).append('\"');
+        sb.append(",\"txHash\":")
+                .append('\"').append(txHash).append('\"');
+        sb.append(",\"memberCount\":")
+                .append(memberCount);
+        sb.append(",\"alais\":")
+                .append('\"').append(alais).append('\"');
+        sb.append('}');
+        return sb.toString();
     }
 }

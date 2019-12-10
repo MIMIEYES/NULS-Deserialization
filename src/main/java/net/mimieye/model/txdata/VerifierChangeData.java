@@ -1,10 +1,13 @@
 package net.mimieye.model.txdata;
 
+import com.fasterxml.jackson.core.JsonProcessingException;
 import io.nuls.base.basic.NulsByteBuffer;
 import io.nuls.base.basic.NulsOutputStreamBuffer;
 import io.nuls.base.data.BaseNulsData;
 import io.nuls.core.exception.NulsException;
 import io.nuls.core.parse.SerializeUtils;
+import net.mimieye.core.parse.JSONUtils;
+import net.mimieye.model.dto.CreateContractDataDto;
 
 import java.io.IOException;
 import java.util.ArrayList;
@@ -113,5 +116,14 @@ public class VerifierChangeData extends BaseNulsData {
 
     public void setChainId(int chainId) {
         this.chainId = chainId;
+    }
+
+    @Override
+    public String toString() {
+        try {
+            return JSONUtils.obj2json(this);
+        } catch (JsonProcessingException e) {
+            throw new RuntimeException(e);
+        }
     }
 }

@@ -26,6 +26,7 @@
 package net.mimieye.model.txdata;
 
 
+import io.nuls.base.basic.AddressTool;
 import io.nuls.base.basic.NulsByteBuffer;
 import io.nuls.base.basic.NulsOutputStreamBuffer;
 import io.nuls.base.data.BaseNulsData;
@@ -33,6 +34,7 @@ import io.nuls.base.data.NulsHash;
 import io.nuls.core.exception.NulsException;
 
 import java.io.IOException;
+import java.util.Arrays;
 import java.util.HashSet;
 import java.util.Set;
 
@@ -89,5 +91,16 @@ public class StopAgent extends BaseNulsData {
 
     public void setCreateTxHash(NulsHash createTxHash) {
         this.createTxHash = createTxHash;
+    }
+
+    @Override
+    public String toString() {
+        final StringBuilder sb = new StringBuilder("{");
+        sb.append("\"address\":")
+                .append('\"').append(AddressTool.getStringAddressByBytes(address)).append('\"');
+        sb.append(",\"createTxHash\":")
+                .append('\"').append(createTxHash).append('\"');
+        sb.append('}');
+        return sb.toString();
     }
 }

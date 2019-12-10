@@ -96,7 +96,7 @@ public class Alias extends BaseNulsData {
     public String toString() {
         final StringBuilder sb = new StringBuilder("{");
         sb.append("\"address\":")
-                .append(AddressTool.getStringAddressByBytes(address));
+                .append('\"').append(AddressTool.getStringAddressByBytes(address)).append('\"');
         sb.append(",\"alias\":")
                 .append('\"').append(alias).append('\"');
         sb.append('}');

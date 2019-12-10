@@ -85,4 +85,15 @@ public class CrossTxData extends BaseNulsData {
     public void setOriginalTxHash(NulsHash originalTxHash) {
         this.originalTxHash = originalTxHash;
     }
+
+    @Override
+    public String toString() {
+        final StringBuilder sb = new StringBuilder("{");
+        sb.append("\"chainId\":")
+                .append(chainId);
+        sb.append(",\"originalTxHash\":")
+                .append('\"').append(originalTxHash).append('\"');
+        sb.append('}');
+        return sb.toString();
+    }
 }

@@ -9,8 +9,13 @@
     <script type="text/javascript">
 
         $(function() {
-            $('#toggle-btn').on('click', function() {
-                $('#json').JSONView('toggle');
+            $('#toggle-btn1').on('click', function() {
+                $('#json1').JSONView('toggle');
+            });
+        });
+        $(function() {
+            $('#toggle-btn2').on('click', function() {
+                $('#json2').JSONView('toggle');
             });
         });
         // $(function(){
@@ -37,7 +42,19 @@
         // });
         $(document).ready(function(){
             $('#Form1').bind('submit', function(){
-                ajaxSubmit(this);
+                var dataPara = getFormJson(this);
+                org.method = dataPara.jsonrpcMethod;
+                org.params = [dataPara.chainId, dataPara.txHex, dataPara.prefix];
+                ajaxSubmit(this, 1);
+                return false;
+            });
+        });
+        $(document).ready(function(){
+            $('#Form2').bind('submit', function(){
+                var dataPara = getFormJson(this);
+                org.method = dataPara.jsonrpcMethod;
+                org.params = [dataPara.chainId, dataPara.txType, dataPara.txDataHex, dataPara.prefix];
+                ajaxSubmit(this, 2);
                 return false;
             });
         });
@@ -48,10 +65,7 @@
             "id":1234
         };
         //将form转为AJAX提交
-        function ajaxSubmit(frm) {
-            var dataPara = getFormJson(frm);
-            org.method = dataPara.jsonrpcMethod;
-            org.params = [dataPara.chainId, dataPara.txHex];
+        function ajaxSubmit(frm, i) {
             $.ajax({
                 //请求方式
                 type: "POST",
@@ -64,10 +78,10 @@
                 //请求成功后要执行的函数，拼接html
                 success: function(obj){
                     if(obj.result) {
-                        $("#json").JSONView(obj.result);
+                        $("#json"+i).JSONView(obj.result);
                         // $("div").append(JSON.stringify(obj.result));
                     } else {
-                        $("#json").JSONView(obj);
+                        $("#json"+i).JSONView(obj);
                         // $("div").append(JSON.stringify(obj));
                     }
                 }
@@ -94,6 +108,7 @@
 <body>
 <h2>NULS 反序列化</h2>
 
+<h3>1. 交易</h3>
 <form id="Form1" action="/api/jsonrpc/" method="post" >
     <input name="jsonrpcMethod" type="hidden" value="deserializationTx" />
     <table border="0">
@@ -104,13 +119,42 @@
             <td align="right">交易序列化数据: </td><td><input name="txHex" type="text" /><br /></td>
         </tr>
         <tr>
+            <td align="right">地址前缀: </td><td><input name="prefix" type="text" /><br /></td>
+        </tr>
+        <tr>
             <td colspan="2" align="right"><input type="submit" value="点击反序列化" /><br /></td>
         </tr>
     </table>
 
 </form>
-<h3>反序列化数据</h3>
-<button id="toggle-btn">展开或折叠</button>
-<div id="json"></div>
+<h4>反序列化数据</h4>
+<button id="toggle-btn1">展开或折叠</button>
+<div id="json1"></div>
+<hr>
+<h3>2. 交易业务数据(txData)</h3>
+<form id="Form2" action="/api/jsonrpc/" method="post" >
+    <input name="jsonrpcMethod" type="hidden" value="deserializationTxData" />
+    <table border="0">
+        <tr>
+            <td align="right">chainId: </td><td><input name="chainId" type="text" /><br /></td>
+        </tr>
+        <tr>
+            <td align="right">交易类型: </td><td><input name="txType" type="text" /><br /></td>
+        </tr>
+        <tr>
+            <td align="right">交易业务序列化数据: </td><td><input name="txDataHex" type="text" /><br /></td>
+        </tr>
+        <tr>
+            <td align="right">地址前缀: </td><td><input name="prefix" type="text" /><br /></td>
+        </tr>
+        <tr>
+            <td colspan="2" align="right"><input type="submit" value="点击反序列化" /><br /></td>
+        </tr>
+    </table>
+
+</form>
+<h4>反序列化数据</h4>
+<button id="toggle-btn2">展开或折叠</button>
+<div id="json2"></div>
 </body>
 </html>

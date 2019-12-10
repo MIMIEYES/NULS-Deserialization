@@ -25,14 +25,17 @@
 package net.mimieye.model.txdata;
 
 
+import io.nuls.base.basic.AddressTool;
 import io.nuls.base.basic.NulsByteBuffer;
 import io.nuls.base.basic.NulsOutputStreamBuffer;
 import io.nuls.base.data.Address;
 import io.nuls.base.data.BaseNulsData;
 import io.nuls.core.exception.NulsException;
 import io.nuls.core.parse.SerializeUtils;
+import net.mimieye.core.crypto.HexUtil;
 
 import java.io.IOException;
+import java.util.Arrays;
 import java.util.HashSet;
 import java.util.Set;
 
@@ -103,5 +106,18 @@ public class RedPunishData extends BaseNulsData {
         Set<byte[]> set = new HashSet<>();
         set.add(address);
         return set;
+    }
+
+    @Override
+    public String toString() {
+        final StringBuilder sb = new StringBuilder("{");
+        sb.append("\"address\":")
+                .append('\"').append(AddressTool.getStringAddressByBytes(address)).append('\"');
+        sb.append(",\"reasonCode\":")
+                .append(reasonCode);
+        sb.append(",\"evidence\":")
+                .append('\"').append(evidence != null ? HexUtil.encode(evidence) : null).append('\"');
+        sb.append('}');
+        return sb.toString();
     }
 }

@@ -25,6 +25,7 @@
 package net.mimieye.model.txdata;
 
 
+import io.nuls.base.basic.AddressTool;
 import io.nuls.base.basic.NulsByteBuffer;
 import io.nuls.base.basic.NulsOutputStreamBuffer;
 import io.nuls.base.data.Address;
@@ -92,5 +93,17 @@ public class YellowPunishData extends BaseNulsData {
             size += Address.ADDRESS_LENGTH;
         }
         return size;
+    }
+
+    @Override
+    public String toString() {
+        final StringBuilder sb = new StringBuilder("{");
+        sb.append("\"addressList\": [");
+        if (addressList != null && !addressList.isEmpty()) {
+            addressList.stream().forEach(address -> sb.append('\"').append(AddressTool.getStringAddressByBytes(address)).append('\"').append(','));
+            sb.deleteCharAt(sb.length() - 1);
+        }
+        sb.append("]}");
+        return sb.toString();
     }
 }
