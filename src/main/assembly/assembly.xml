@@ -7,14 +7,14 @@
     </formats>
     <!-- the zip file with self directory,default:true -->
     <includeBaseDirectory>false</includeBaseDirectory>
-    <dependencySets>
-        <dependencySet>
-            <!-- without project jar self -->
-            <useProjectArtifact>true</useProjectArtifact>
-            <!-- automatic without test jar, can set <scope>compile</scope> to control -->
-            <outputDirectory>/libs</outputDirectory>
-        </dependencySet>
-    </dependencySets>
+<!--    <dependencySets>-->
+<!--        <dependencySet>-->
+<!--            &lt;!&ndash; without project jar self &ndash;&gt;-->
+<!--            <useProjectArtifact>true</useProjectArtifact>-->
+<!--            &lt;!&ndash; automatic without test jar, can set <scope>compile</scope> to control &ndash;&gt;-->
+<!--            <outputDirectory>/libs</outputDirectory>-->
+<!--        </dependencySet>-->
+<!--    </dependencySets>-->
     <fileSets>
         <fileSet>
             <directory>src/main/resources</directory>

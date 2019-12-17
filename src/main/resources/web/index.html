@@ -37,6 +37,32 @@
                 return false;
             });
         });
+
+        $(function() {
+            $('#toggle-btn3').on('click', function() {
+                $('#json3').JSONView('toggle');
+            });
+        });
+        $(document).ready(function(){
+            $('#otherURL').hide();
+            $('#Form3').bind('submit', function(){
+                var dataPara = getFormJson(this);
+                org.method = dataPara.jsonrpcMethod;
+                var net = dataPara.network;
+                org.params = [net, dataPara.hash];
+                if(net > 2) {
+                    org.params.push(dataPara.url);
+                }
+                ajaxSubmit(this, 3);
+                return false;
+            });
+        });
+        function hideURL() {
+            $('#otherURL').hide();
+        }
+        function showURL() {
+            $('#otherURL').show();
+        }
         var org = {
             "jsonrpc":"2.0",
             "method":"",
@@ -87,6 +113,7 @@
 <body>
 <h2>NULS 反序列化</h2>
 
+<!-- //////////////////////////////////////////////////////////////////////// -->
 <h3>1. 交易</h3>
 <form id="Form1" action="/api/jsonrpc/" method="post" >
     <input name="jsonrpcMethod" type="hidden" value="deserializationTx" />
@@ -109,6 +136,8 @@
 <h4>反序列化数据</h4>
 <button id="toggle-btn1">展开或折叠</button>
 <div id="json1"></div>
+
+<!-- //////////////////////////////////////////////////////////////////////// -->
 <hr>
 <h3>2. 交易业务数据(txData)</h3>
 <form id="Form2" action="/api/jsonrpc/" method="post" >
@@ -135,5 +164,35 @@
 <h4>反序列化数据</h4>
 <button id="toggle-btn2">展开或折叠</button>
 <div id="json2"></div>
+
+<!-- //////////////////////////////////////////////////////////////////////// -->
+<hr>
+<h3>3. 根据交易hash查询详情</h3>
+<form id="Form3" action="/api/jsonrpc/" method="post" >
+    <input name="jsonrpcMethod" type="hidden" value="getTxByHash" />
+    <table border="0">
+        <tr>
+            <td align="right">网络接入: </td>
+            <td>
+                <input checked type="radio" name="network" onclick="javascript: hideURL();" value='1'>主网
+                <input type="radio" name="network" onclick="javascript: hideURL();" value='2'>测试网
+                <input type="radio" name="network" onclick="javascript: showURL();"value='3'>其他(默认使用本地环境URL)
+            </td>
+        </tr>
+        <tr id="otherURL">
+            <td align="right" valign="top">URL: </td><td><textarea name="url" cols="100" rows="2" >http://localhost:18004/</textarea><br /></td>
+        </tr>
+        <tr>
+            <td align="right" valign="top">交易hash: </td><td><textarea name="hash" cols="100" rows="2" ></textarea><br /></td>
+        </tr>
+        <tr>
+            <td colspan="2" align="right"><input type="submit" style="font-size: large" value="点击查询交易" /><br /></td>
+        </tr>
+    </table>
+
+</form>
+<h4>交易详情数据</h4>
+<button id="toggle-btn3">展开或折叠</button>
+<div id="json3"></div>
 </body>
 </html>
