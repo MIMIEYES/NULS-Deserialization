@@ -89,6 +89,7 @@ public class ApiController {
             }
         }
         try {
+            String prefix = null;
             if(network == 1) {
                 url = MAIN_API_URL;
                 chainId = network;
@@ -98,7 +99,8 @@ public class ApiController {
             } else {
                 RpcResult info = JsonRpcUtil.request(url, "info", ListUtil.of());
                 Map result = (Map) info.getResult();
-                chainId = (Integer) result.get("chainId");
+                chainId = Integer.parseInt(result.get("chainId").toString());
+                prefix = (String) result.get("addressPrefix");
             }
             RpcResult txResult = JsonRpcUtil.request(url, "getTx", ListUtil.of(chainId, hash));
             if(txResult.getError() != null) {
@@ -107,14 +109,15 @@ public class ApiController {
             Map resultMap = (Map) txResult.getResult();
             int txType = Integer.parseInt(resultMap.get("type").toString());
             Object txDataHex = resultMap.get("txDataHex");
-            String prefix = null;
             List fromList = (List) resultMap.get("from");
-            if(!fromList.isEmpty()) {
-                prefix = AddressTool.getPrefix(((Map) fromList.get(0)).get("address").toString());
-            } else {
-                List toList = (List) resultMap.get("to");
-                if(!toList.isEmpty()) {
-                    prefix = AddressTool.getPrefix(((Map) toList.get(0)).get("address").toString());
+            if(StringUtils.isBlank(prefix)) {
+                if(!fromList.isEmpty()) {
+                    prefix = AddressTool.getPrefix(((Map) fromList.get(0)).get("address").toString());
+                } else {
+                    List toList = (List) resultMap.get("to");
+                    if(!toList.isEmpty()) {
+                        prefix = AddressTool.getPrefix(((Map) toList.get(0)).get("address").toString());
+                    }
                 }
             }
             if(txDataHex != null) {
