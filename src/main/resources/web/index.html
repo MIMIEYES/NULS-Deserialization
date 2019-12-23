@@ -6,7 +6,14 @@
     <link rel="stylesheet" type="text/css" href="/css/jquery.jsonview.min.css" />
     <script type="text/javascript" src="http://code.jquery.com/jquery.min.js"></script>
     <script type="text/javascript" src="/js/jquery.jsonview.min.js"></script>
+
     <script type="text/javascript">
+        var org = {
+            "jsonrpc":"2.0",
+            "method":"",
+            "params":[],
+            "id":1234
+        };
 
         $(function() {
             $('#toggle-btn1').on('click', function() {
@@ -38,6 +45,15 @@
             });
         });
 
+        function get(curl, callback) {
+            $.ajax({
+                //请求方式
+                type: "get",
+                async: false,
+                url: curl,
+                success: callback
+            });
+        }
         $(function() {
             $('#toggle-btn3').on('click', function() {
                 $('#json3').JSONView('toggle');
@@ -46,14 +62,52 @@
         $(document).ready(function(){
             $('#otherURL').hide();
             $('#Form3').bind('submit', function(){
+                var resultData = null;
                 var dataPara = getFormJson(this);
-                org.method = dataPara.jsonrpcMethod;
-                var net = dataPara.network;
-                org.params = [net, dataPara.hash];
-                if(net > 2) {
-                    org.params.push(dataPara.url);
+                var net = parseInt(dataPara.network);
+                var addressPrefix = '';
+                var url = '';
+                var chainId = net;
+                if(net === 1) {
+                    url = 'https://api.nuls.io/api/'
+                } else if(net === 2) {
+                    url = 'http://beta.api.nuls.io/api/'
+                } else {
+                    var formUrl = dataPara.url;
+                    var subfix = '/api';
+                    if(formUrl.substr(formUrl.length - 1, 1) === '/') {
+                        subfix = 'api';
+                    }
+                    url = dataPara.url + subfix;
+                    get(url + '/info', function(obj){
+                        console.info(obj);
+                        if(obj.success) {
+                            addressPrefix = obj.data.addressPrefix;
+                            chainId = obj.data.chainId;
+                        }
+                    });
                 }
-                ajaxSubmit(this, 3);
+
+                get(url + '/tx/' + dataPara.hash, function(obj){
+                    if(obj.success) {
+                        resultData = obj.data;
+                    }
+                });
+
+                org.method = 'deserializationTxData';
+                org.params = [chainId, resultData.type, resultData.txDataHex, addressPrefix];
+                ajaxSubmitCallBack('/api/jsonrpc/', function(obj) {
+                    if(obj.result) {
+                        resultData.txData = obj.result;
+                    }
+                });
+                get(url + '/contract/result/' + dataPara.hash, function(obj){
+                    if(obj.success) {
+                        resultData.contractResult = obj.data;
+                    }
+                });
+
+                $("#json3").JSONView(resultData);
                 return false;
             });
         });
@@ -63,12 +117,7 @@
         function showURL() {
             $('#otherURL').show();
         }
-        var org = {
-            "jsonrpc":"2.0",
-            "method":"",
-            "params":[],
-            "id":1234
-        };
+
         //将form转为AJAX提交
         function ajaxSubmit(frm, i) {
             $.ajax({
@@ -92,6 +141,22 @@
                 }
             });
         }
+
+        function ajaxSubmitCallBack(rpcurl, callback) {
+            $.ajax({
+                //请求方式
+                type: "POST",
+                async: false,
+                //文件位置
+                url: rpcurl,
+                headers: {'Content-Type':'application/json;charset=utf-8'},
+                data: JSON.stringify(org),
+                dataType: "json",
+                //请求成功后要执行的函数
+                success: callback
+            });
+        }
+
         //将form中的值转换为键值对。
         function getFormJson(frm) {
             var o = {};
@@ -168,8 +233,7 @@
 <!-- //////////////////////////////////////////////////////////////////////// -->
 <hr>
 <h3>3. 根据交易hash查询详情</h3>
-<form id="Form3" action="/api/jsonrpc/" method="post" >
-    <input name="jsonrpcMethod" type="hidden" value="getTxByHash" />
+<form id="Form3" action="#">
     <table border="0">
         <tr>
             <td align="right">网络接入: </td>

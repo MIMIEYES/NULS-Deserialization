@@ -88,7 +88,7 @@ public class DeserializationController {
                 Log.warn("txDataJson is {}", txDataJson);
             }
             Log.error(e);
-            RpcResult.failed(new RpcResultError(RpcErrorCode.TX_PARSE_ERROR, e.getMessage()));
+            return RpcResult.failed(new RpcResultError(RpcErrorCode.TX_PARSE_ERROR, e.getMessage()));
         }
         return RpcResult.success(txDto);
     }
@@ -130,7 +130,7 @@ public class DeserializationController {
             }
         } catch (Exception e) {
             Log.error(e);
-            RpcResult.failed(new RpcResultError(RpcErrorCode.TX_PARSE_ERROR, e.getMessage()));
+            return RpcResult.failed(new RpcResultError(RpcErrorCode.TX_PARSE_ERROR, e.getMessage()));
         }
         return RpcResult.success(txDataObj);
     }

@@ -60,6 +60,7 @@ public class ApiController {
     @Autowired
     private DeserializationController deserializationController;
 
+    @Deprecated
     @RpcMethod("getTxByHash")
     public RpcResult getTxByHash(List<Object> params) {
         int network, chainId = 0;
