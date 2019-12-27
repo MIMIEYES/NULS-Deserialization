@@ -116,7 +116,7 @@ public class RpcServerManager {
             String uri = this.getRelativeURI(request);
             if (uri == null || !this.handle(uri, request, response)) {
                 Log.warn("Not found path is {}", uri);
-                response.sendRedirect("/");
+                response.sendRedirect(System.getProperty("domain", "/"));
             }
         }
     }
