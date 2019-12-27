@@ -41,6 +41,9 @@ public class AppUtil {
     }
 
     public static String parseTxDataJson(int txType, byte[] txData) throws NulsException {
+        if(txData == null) {
+            return null;
+        }
         String txDataJson = null;
         switch (txType) {
             case TxType.ACCOUNT_ALIAS :

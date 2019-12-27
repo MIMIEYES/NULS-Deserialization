@@ -27,10 +27,7 @@ package net.mimieye.server;
 
 import net.mimieye.core.log.Log;
 import net.mimieye.server.config.NulsResourceConfig;
-import org.glassfish.grizzly.http.server.CLStaticHttpHandler;
-import org.glassfish.grizzly.http.server.HttpServer;
-import org.glassfish.grizzly.http.server.NetworkListener;
-import org.glassfish.grizzly.http.server.ServerConfiguration;
+import org.glassfish.grizzly.http.server.*;
 import org.glassfish.grizzly.nio.transport.TCPNIOTransport;
 import org.glassfish.grizzly.servlet.WebappContext;
 import org.glassfish.grizzly.strategies.WorkerThreadIOStrategy;
@@ -102,9 +99,25 @@ public class RpcServerManager {
     }
 
     private void addWeb(ClassLoader loader) {
-        CLStaticHttpHandler docsHandler = new CLStaticHttpHandler(loader, "web/");
+        NotFoundHandler docsHandler = new NotFoundHandler(loader, System.getProperty("static", "web") + "/");
         docsHandler.setFileCacheEnabled(true);
         ServerConfiguration cfg = httpServer.getServerConfiguration();
         cfg.addHttpHandler(docsHandler, "/");
+    }
+
+    static class NotFoundHandler extends CLStaticHttpHandler {
+
+        public NotFoundHandler(ClassLoader classLoader, String... docRoots) {
+            super(classLoader, docRoots);
+        }
+
+        @Override
+        public void service(Request request, Response response) throws Exception {
+            String uri = this.getRelativeURI(request);
+            if (uri == null || !this.handle(uri, request, response)) {
+                Log.warn("Not found path is {}", uri);
+                response.sendRedirect("/");
+            }
+        }
     }
 }

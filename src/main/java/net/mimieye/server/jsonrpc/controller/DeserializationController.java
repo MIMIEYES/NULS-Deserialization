@@ -63,6 +63,9 @@ public class DeserializationController {
         } catch (Exception e) {
             return RpcResult.paramError("[txHex] is inValid");
         }
+        if(StringUtils.isBlank(txHex)) {
+            return RpcResult.paramError("[txHex] is empty");
+        }
         if(params.size() > 2) {
             try {
                 prefix = (String) params.get(2);
@@ -113,6 +116,9 @@ public class DeserializationController {
             txDataHex = (String) params.get(2);
         } catch (Exception e) {
             return RpcResult.paramError("[txDataHex] is inValid");
+        }
+        if(StringUtils.isBlank(txDataHex)) {
+            return RpcResult.paramError("[txDataHex] is empty");
         }
         if(params.size() > 3) {
             try {
