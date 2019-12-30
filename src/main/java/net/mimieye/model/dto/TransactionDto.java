@@ -57,7 +57,8 @@ public class TransactionDto {
     
     private String remark;
     
-    private String transactionSignature;
+    //private String transactionSignatureHex;
+    private Object transactionSignature;
     
     private int status = 0;
     
@@ -71,6 +72,8 @@ public class TransactionDto {
 
     private Object txData;
 
+
+
     public TransactionDto() {
     }
 
@@ -82,7 +85,7 @@ public class TransactionDto {
         this.inBlockIndex = transaction.getInBlockIndex();
         this.size = transaction.getSize();
         this.time = DateUtils.timeStamp2DateStr(transaction.getTime() * 1000);
-        this.transactionSignature = RPCUtil.encode(transaction.getTransactionSignature());
+        //this.transactionSignatureHex = RPCUtil.encode(transaction.getTransactionSignature());
         this.type = transaction.getType();
         if (transaction.getCoinData() != null) {
             CoinData coinData = transaction.getCoinDataInstance();

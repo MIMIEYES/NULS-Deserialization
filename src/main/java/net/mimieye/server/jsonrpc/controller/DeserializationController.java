@@ -37,6 +37,8 @@ import net.mimieye.model.dto.TransactionDto;
 import net.mimieye.model.jsonrpc.RpcErrorCode;
 import net.mimieye.model.jsonrpc.RpcResult;
 import net.mimieye.model.jsonrpc.RpcResultError;
+import net.mimieye.model.txdata.MultiSignTxSignature;
+import net.mimieye.model.txdata.TransactionSignature;
 import net.mimieye.server.utils.AppUtil;
 
 import java.util.List;
@@ -81,6 +83,21 @@ public class DeserializationController {
             Transaction tx = new Transaction();
             tx.parse(new NulsByteBuffer(HexUtil.decode(txHex)));
             txDto = new TransactionDto(tx);
+            if(tx.getTransactionSignature() != null) {
+                String transactionSignatureJson = null;
+                if (!tx.isMultiSignTx()) {
+                    TransactionSignature ts = new TransactionSignature();
+                    ts.parse(tx.getTransactionSignature(), 0);
+                    transactionSignatureJson = ts.toString();
+                } else {
+                    MultiSignTxSignature mts = new MultiSignTxSignature();
+                    mts.parse(tx.getTransactionSignature(), 0);
+                    transactionSignatureJson = mts.toString();
+                }
+                if(StringUtils.isNotBlank(transactionSignatureJson)) {
+                    txDto.setTransactionSignature(JSONUtils.json2map(transactionSignatureJson));
+                }
+            }
             txDataJson = AppUtil.parseTxDataJson(tx.getType(), tx.getTxData());
             if(StringUtils.isNotBlank(txDataJson)) {
                 txDto.setTxData(JSONUtils.json2map(txDataJson));
