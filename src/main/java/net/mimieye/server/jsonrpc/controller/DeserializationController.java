@@ -26,6 +26,7 @@ package net.mimieye.server.jsonrpc.controller;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import io.nuls.base.basic.NulsByteBuffer;
 import io.nuls.base.data.Transaction;
+import io.nuls.core.exception.NulsException;
 import io.nuls.v2.util.ListUtil;
 import net.mimieye.core.core.annotation.Controller;
 import net.mimieye.core.core.annotation.RpcMethod;
@@ -98,7 +99,7 @@ public class DeserializationController {
                     txDto.setTransactionSignature(JSONUtils.json2map(transactionSignatureJson));
                 }
             }
-            txDataJson = AppUtil.parseTxDataJson(tx.getType(), tx.getTxData());
+            txDataJson = AppUtil.parseTxDataJsonII(tx.getType(), tx.getTxData());
             if(StringUtils.isNotBlank(txDataJson)) {
                 txDto.setTxData(JSONUtils.json2map(txDataJson));
             }
@@ -147,7 +148,7 @@ public class DeserializationController {
         }
         Object txDataObj = null;
         try {
-            String txDataJson = AppUtil.parseTxDataJson(txType, HexUtil.decode(txDataHex));
+            String txDataJson = AppUtil.parseTxDataJsonII(txType, HexUtil.decode(txDataHex));
             if(StringUtils.isNotBlank(txDataJson)) {
                 txDataObj = JSONUtils.json2map(txDataJson);
             }
