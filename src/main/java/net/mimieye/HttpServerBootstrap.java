@@ -23,6 +23,7 @@
  */
 package net.mimieye;
 
+import io.nuls.base.basic.AddressTool;
 import net.mimieye.core.core.ioc.SpringLiteContext;
 import net.mimieye.server.RpcServerManager;
 
@@ -38,6 +39,8 @@ public class HttpServerBootstrap {
     public static void main(String[] args) {
         SpringLiteContext.init("net.mimieye");
         initConfig();
+        AddressTool.addPrefix(5, "TNVT");
+        AddressTool.addPrefix(9, "NERVE");
         RpcServerManager.getInstance().startServer(System.getProperty("ip", "127.0.0.1"), Integer.parseInt(System.getProperty("port", "9898")));
     }
 

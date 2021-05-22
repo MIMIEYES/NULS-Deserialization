@@ -25,7 +25,7 @@
 
 package net.mimieye.base.data;
 
-import net.mimieye.base.basic.AddressTool;
+import io.nuls.base.basic.AddressTool;
 import net.mimieye.core.constant.BaseConstant;
 import net.mimieye.core.crypto.Base58;
 import net.mimieye.core.exception.NulsRuntimeException;
@@ -88,9 +88,9 @@ public class Address {
         this.hash160 = hash160;
         this.addressBytes = calcAddressbytes();
         if (chainId == BaseConstant.MAINNET_CHAIN_ID) {
-            this.prefix = AddressTool.MAINNET_PREFIX;
+            this.prefix = BaseConstant.MAINNET_DEFAULT_ADDRESS_PREFIX;
         } else if (chainId == BaseConstant.TESTNET_CHAIN_ID) {
-            this.prefix = AddressTool.TESTNET_PREFIX;
+            this.prefix = BaseConstant.TESTNET_DEFAULT_ADDRESS_PREFIX;
         } else {
             this.prefix = Base58.encode(SerializeUtils.int16ToBytes(chainId)).toUpperCase();
         }

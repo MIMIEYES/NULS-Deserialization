@@ -26,6 +26,7 @@ package net.mimieye.server.utils;
 import io.nuls.base.basic.AddressTool;
 import io.nuls.base.data.BaseNulsData;
 import io.nuls.core.constant.TxType;
+import net.mimieye.core.model.StringUtils;
 import net.mimieye.model.txdata.*;
 import net.mimieye.model.txdata.nerve.*;
 
@@ -39,6 +40,9 @@ import java.util.Map;
 public class AppUtil {
 
     public static void addressPrefix(int chainId, String prefix) {
+        if (StringUtils.isBlank(prefix)) {
+            return;
+        }
         if(chainId != 1 || chainId != 2) {
             AddressTool.addPrefix(chainId, prefix);
         }
