@@ -92,7 +92,7 @@ public class PersistManager {
         try {
             //转换为json字符串，writerWithDefaultPrettyPrinter方法会对json字符串格式化成更利于阅读的格式
             configValueJson = JSONUtils.getInstance().writerWithDefaultPrettyPrinter().writeValueAsString(configValue);
-        } catch (JsonProcessingException e) {
+        } catch (Exception e) {
             Log.warn("format config value fail.", e);
             return;
         }

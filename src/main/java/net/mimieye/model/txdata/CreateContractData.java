@@ -195,7 +195,7 @@ public class CreateContractData extends BaseNulsData implements ContractData {
     public String toString() {
         try {
             return JSONUtils.obj2json(new CreateContractDataDto(this));
-        } catch (JsonProcessingException e) {
+        } catch (Exception e) {
             throw new RuntimeException(e);
         }
     }

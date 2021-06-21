@@ -53,8 +53,12 @@ public final class JSONUtils {
      * @param obj 需转换的对象
      * @return 转换得到的JSON字符串
      */
-    public static String obj2json(Object obj) throws JsonProcessingException{
-        return OBJECT_MAPPER.writeValueAsString(obj);
+    public static String obj2json(Object obj) {
+        try {
+            return OBJECT_MAPPER.writeValueAsString(obj);
+        } catch (Exception e) {
+            throw new RuntimeException(e);
+        }
     }
 
     public static String obj2PrettyJson(Object obj) throws JsonProcessingException {

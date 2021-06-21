@@ -122,7 +122,7 @@ public class VerifierChangeData extends BaseNulsData {
     public String toString() {
         try {
             return JSONUtils.obj2json(this);
-        } catch (JsonProcessingException e) {
+        } catch (Exception e) {
             throw new RuntimeException(e);
         }
     }

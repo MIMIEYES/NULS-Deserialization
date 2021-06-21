@@ -203,7 +203,7 @@ public class CallContractData  extends BaseNulsData implements ContractData {
     public String toString() {
         try {
             return JSONUtils.obj2json(new CallContractDataDto(this));
-        } catch (JsonProcessingException e) {
+        } catch (Exception e) {
             throw new RuntimeException(e);
         }
     }

@@ -159,6 +159,7 @@ public class DeserializationController {
         return RpcResult.success(txDataObj);
     }
 
+    @Deprecated
     @RpcMethod("deserializationBlockHeader")
     public RpcResult deserializationBlockHeader(List<Object> params) {
         int chainId;
@@ -176,6 +177,7 @@ public class DeserializationController {
         return RpcResult.success("jsonrpc ok");
     }
 
+    @Deprecated
     @RpcMethod("deserializationBlockData")
     public RpcResult deserializationBlockData(List<Object> params) {
         int chainId;

@@ -72,7 +72,7 @@ public class RpcClientResult {
     public String toString() {
         try {
             return new ObjectMapper().writeValueAsString(this);
-        } catch (JsonProcessingException e) {
+        } catch (Exception e) {
             return null;
         }
 

@@ -45,6 +45,7 @@ import java.util.Set;
  * @author: PierreLuo
  * @date: 2019-12-09
  */
+@Deprecated
 @Controller
 public class ApiController {
 

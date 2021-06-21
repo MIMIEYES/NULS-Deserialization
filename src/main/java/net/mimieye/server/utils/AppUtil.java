@@ -26,9 +26,15 @@ package net.mimieye.server.utils;
 import io.nuls.base.basic.AddressTool;
 import io.nuls.base.data.BaseNulsData;
 import io.nuls.core.constant.TxType;
+import net.mimieye.core.crypto.HexUtil;
 import net.mimieye.core.model.StringUtils;
 import net.mimieye.model.txdata.*;
 import net.mimieye.model.txdata.nerve.*;
+import net.mimieye.model.txdata.nerve.swap.*;
+import net.mimieye.model.txdata.nerve.swap.stable.CreateStablePairData;
+import net.mimieye.model.txdata.nerve.swap.stable.StableAddLiquidityData;
+import net.mimieye.model.txdata.nerve.swap.stable.StableRemoveLiquidityData;
+import net.mimieye.model.txdata.nerve.swap.stable.StableSwapTradeData;
 
 import java.util.HashMap;
 import java.util.Map;
@@ -91,6 +97,20 @@ public class AppUtil {
         DATA_MAP.put(TxType.WITHDRAWAL_HETEROGENEOUS_SEND, WithdrawalHeterogeneousSendTxData.class);
         DATA_MAP.put(TxType.WITHDRAWAL, WithdrawalTxData.class);
 
+        //SWAP
+        DATA_MAP.put(TxType.CREATE_SWAP_PAIR, CreatePairData.class);
+        DATA_MAP.put(TxType.FARM_CREATE, FarmCreateData.class);
+        DATA_MAP.put(TxType.SWAP_TRADE, SwapTradeData.class);
+        DATA_MAP.put(TxType.SWAP_ADD_LIQUIDITY, AddLiquidityData.class);
+        DATA_MAP.put(TxType.SWAP_REMOVE_LIQUIDITY, RemoveLiquidityData.class);
+        DATA_MAP.put(TxType.FARM_STAKE, FarmStakeChangeData.class);
+        DATA_MAP.put(TxType.FARM_WITHDRAW, FarmStakeChangeData.class);
+        DATA_MAP.put(TxType.CREATE_SWAP_PAIR_STABLE_COIN, CreateStablePairData.class);
+        DATA_MAP.put(TxType.SWAP_TRADE_STABLE_COIN, StableSwapTradeData.class);
+        DATA_MAP.put(TxType.SWAP_ADD_LIQUIDITY_STABLE_COIN, StableAddLiquidityData.class);
+        DATA_MAP.put(TxType.SWAP_REMOVE_LIQUIDITY_STABLE_COIN, StableRemoveLiquidityData.class);
+
+
 
     }
     public static String parseTxDataJsonII(int txType, byte[] txData) throws Exception {
@@ -99,95 +119,11 @@ public class AppUtil {
         }
         Class<? extends BaseNulsData> aClass = DATA_MAP.get(txType);
         if (aClass == null) {
-            return null;
+            return HexUtil.encode(txData);
         }
         BaseNulsData baseNulsData = aClass.getDeclaredConstructor().newInstance();
         baseNulsData.parse(txData, 0);
         return baseNulsData.toString();
     }
 
-    /*public static String parseTxDataJson(int txType, byte[] txData) throws NulsException {
-        if(txData == null) {
-            return null;
-        }
-        String txDataJson = null;
-        switch (txType) {
-            case TxType.ACCOUNT_ALIAS :
-                Alias alias = new Alias();
-                alias.parse(txData, 0);
-                txDataJson = alias.toString();
-                break;
-            case TxType.CONTRACT_CREATE_AGENT :
-            case TxType.REGISTER_AGENT :
-                Agent agent = new Agent();
-                agent.parse(txData, 0);
-                txDataJson = agent.toString();
-                break;
-            case TxType.CONTRACT_DEPOSIT :
-            case TxType.DEPOSIT :
-                Deposit deposit = new Deposit();
-                deposit.parse(txData, 0);
-                txDataJson = deposit.toString();
-                break;
-            case TxType.CONTRACT_CANCEL_DEPOSIT :
-            case TxType.CANCEL_DEPOSIT :
-                CancelDeposit cancelDeposit = new CancelDeposit();
-                cancelDeposit.parse(txData, 0);
-                txDataJson = cancelDeposit.toString();
-                break;
-            case TxType.YELLOW_PUNISH :
-                YellowPunishData yellowPunishData = new YellowPunishData();
-                yellowPunishData.parse(txData, 0);
-                txDataJson = yellowPunishData.toString();
-                break;
-            case TxType.RED_PUNISH :
-                RedPunishData redPunishData = new RedPunishData();
-                redPunishData.parse(txData, 0);
-                txDataJson = redPunishData.toString();
-                break;
-            case TxType.CONTRACT_STOP_AGENT :
-            case TxType.STOP_AGENT :
-                StopAgent stopAgent = new StopAgent();
-                stopAgent.parse(txData, 0);
-                txDataJson = stopAgent.toString();
-                break;
-            case TxType.CROSS_CHAIN :
-                CrossTxData crossTxData = new CrossTxData();
-                crossTxData.parse(txData, 0);
-                txDataJson = crossTxData.toString();
-                break;
-            case TxType.CREATE_CONTRACT :
-                CreateContractData createContractData = new CreateContractData();
-                createContractData.parse(txData, 0);
-                txDataJson = createContractData.toString();
-                break;
-            case TxType.CALL_CONTRACT :
-                CallContractData callContractData = new CallContractData();
-                callContractData.parse(txData, 0);
-                txDataJson = callContractData.toString();
-                break;
-            case TxType.DELETE_CONTRACT :
-                DeleteContractData deleteContractData = new DeleteContractData();
-                deleteContractData.parse(txData, 0);
-                txDataJson = deleteContractData.toString();
-                break;
-            case TxType.CONTRACT_TRANSFER :
-                ContractTransferData contractTransferData = new ContractTransferData();
-                contractTransferData.parse(txData, 0);
-                txDataJson = contractTransferData.toString();
-                break;
-            case TxType.VERIFIER_CHANGE :
-                VerifierChangeData verifierChangeData = new VerifierChangeData();
-                verifierChangeData.parse(txData, 0);
-                txDataJson = verifierChangeData.toString();
-                break;
-            case TxType.VERIFIER_INIT :
-                VerifierInitData verifierInitData = new VerifierInitData();
-                verifierInitData.parse(txData, 0);
-                txDataJson = verifierInitData.toString();
-                break;
-            default:
-        }
-        return txDataJson;
-    }*/
 }

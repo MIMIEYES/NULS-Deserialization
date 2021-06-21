@@ -34,7 +34,7 @@ public class JsonModuleConfigParser implements ModuleConfigParser {
                     } else {
                         res.put(key, new ConfigurationLoader.ConfigItem(configFile, JSONUtils.obj2json(value)));
                     }
-                } catch (JsonProcessingException e) {
+                } catch (Exception e) {
                     throw new RuntimeException("json配置文件解析错误：" + key);
                 }
             });
