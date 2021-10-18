@@ -4,12 +4,12 @@ import io.nuls.base.basic.NulsByteBuffer;
 import io.nuls.base.basic.NulsOutputStreamBuffer;
 import io.nuls.base.data.BaseNulsData;
 import io.nuls.core.exception.NulsException;
+import io.nuls.core.model.StringUtils;
 import io.nuls.core.parse.SerializeUtils;
 import net.mimieye.core.parse.JSONUtils;
 import net.mimieye.model.txdata.nerve.swap.NerveToken;
 
 import java.io.IOException;
-import java.util.Arrays;
 
 /**
  * @author Niels
@@ -17,6 +17,7 @@ import java.util.Arrays;
 public class CreateStablePairData extends BaseNulsData {
 
     private NerveToken[] coins;
+    private String symbol;
 
     @Override
     protected void serializeToStream(NulsOutputStreamBuffer stream) throws IOException {
@@ -24,6 +25,9 @@ public class CreateStablePairData extends BaseNulsData {
         stream.writeUint8(length);
         for (int i = 0; i < length; i++) {
             stream.writeNulsData(coins[i]);
+        }
+        if (StringUtils.isNotBlank(symbol)) {
+            stream.writeString(symbol);
         }
     }
 
@@ -34,6 +38,9 @@ public class CreateStablePairData extends BaseNulsData {
         for (int i = 0; i < length; i++) {
             coins[i] = byteBuffer.readNulsData(new NerveToken());
         }
+        if (!byteBuffer.isFinished()) {
+            this.symbol = byteBuffer.readString();
+        }
     }
 
     @Override
@@ -41,6 +48,9 @@ public class CreateStablePairData extends BaseNulsData {
         int size = 0;
         size += 1;
         size += SerializeUtils.sizeOfNulsData(new NerveToken()) * coins.length;
+        if (StringUtils.isNotBlank(symbol)) {
+            size += SerializeUtils.sizeOfString(symbol);
+        }
         return size;
     }
 
@@ -50,6 +60,14 @@ public class CreateStablePairData extends BaseNulsData {
 
     public void setCoins(NerveToken[] coins) {
         this.coins = coins;
+    }
+
+    public String getSymbol() {
+        return symbol;
+    }
+
+    public void setSymbol(String symbol) {
+        this.symbol = symbol;
     }
 
     @Override
