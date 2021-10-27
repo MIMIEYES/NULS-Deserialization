@@ -19,6 +19,8 @@ public class FarmCreateData extends BaseNulsData {
     private BigInteger totalSyrupAmount;
     private long startBlockHeight;
     private long lockedTime;
+    private boolean modifiable;
+    private long withdrawLockTime;
 
     @Override
     protected void serializeToStream(NulsOutputStreamBuffer stream) throws IOException {
@@ -30,6 +32,10 @@ public class FarmCreateData extends BaseNulsData {
         stream.writeBigInteger(totalSyrupAmount);
         stream.writeInt64(startBlockHeight);
         stream.writeInt64(lockedTime);
+        if (withdrawLockTime > 0 || modifiable) {
+            stream.writeBoolean(modifiable);
+            stream.writeInt64(withdrawLockTime);
+        }
     }
 
     @Override
@@ -40,6 +46,10 @@ public class FarmCreateData extends BaseNulsData {
         this.totalSyrupAmount = byteBuffer.readBigInteger();
         this.startBlockHeight = byteBuffer.readInt64();
         this.lockedTime = byteBuffer.readInt64();
+        if (!byteBuffer.isFinished()) {
+            this.modifiable = byteBuffer.readBoolean();
+            this.withdrawLockTime = byteBuffer.readInt64();
+        }
     }
 
     @Override
@@ -50,6 +60,10 @@ public class FarmCreateData extends BaseNulsData {
         size += SerializeUtils.sizeOfBigInteger();
         size += SerializeUtils.sizeOfInt64();
         size += SerializeUtils.sizeOfInt64();
+        if (withdrawLockTime > 0 || modifiable) {
+            size += SerializeUtils.sizeOfBoolean();
+            size += SerializeUtils.sizeOfInt64();
+        }
         return size;
     }
 
@@ -101,6 +115,22 @@ public class FarmCreateData extends BaseNulsData {
         this.totalSyrupAmount = totalSyrupAmount;
     }
 
+    public boolean isModifiable() {
+        return modifiable;
+    }
+
+    public void setModifiable(boolean modifiable) {
+        this.modifiable = modifiable;
+    }
+
+    public long getWithdrawLockTime() {
+        return withdrawLockTime;
+    }
+
+    public void setWithdrawLockTime(long withdrawLockTime) {
+        this.withdrawLockTime = withdrawLockTime;
+    }
+
     @Override
     public String toString() {
         final StringBuilder sb = new StringBuilder("{");
@@ -116,7 +146,12 @@ public class FarmCreateData extends BaseNulsData {
                 .append(startBlockHeight);
         sb.append(",\"lockedTime\":")
                 .append(lockedTime);
+        sb.append(",\"modifiable\":")
+                .append(modifiable);
+        sb.append(",\"withdrawLockTime\":")
+                .append(withdrawLockTime);
         sb.append('}');
         return sb.toString();
     }
+
 }

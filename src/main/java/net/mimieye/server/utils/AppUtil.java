@@ -105,12 +105,11 @@ public class AppUtil {
         DATA_MAP.put(TxType.SWAP_REMOVE_LIQUIDITY, RemoveLiquidityData.class);
         DATA_MAP.put(TxType.FARM_STAKE, FarmStakeChangeData.class);
         DATA_MAP.put(TxType.FARM_WITHDRAW, FarmStakeChangeData.class);
+        DATA_MAP.put(TxType.FARM_UPDATE, FarmUpdateData.class);
         DATA_MAP.put(TxType.CREATE_SWAP_PAIR_STABLE_COIN, CreateStablePairData.class);
         DATA_MAP.put(TxType.SWAP_TRADE_STABLE_COIN, StableSwapTradeData.class);
         DATA_MAP.put(TxType.SWAP_ADD_LIQUIDITY_STABLE_COIN, StableAddLiquidityData.class);
         DATA_MAP.put(TxType.SWAP_REMOVE_LIQUIDITY_STABLE_COIN, StableRemoveLiquidityData.class);
-
-
 
     }
     public static String parseTxDataJsonII(int txType, byte[] txData) throws Exception {
