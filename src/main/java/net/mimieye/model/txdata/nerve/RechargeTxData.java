@@ -28,6 +28,7 @@ import io.nuls.base.basic.NulsByteBuffer;
 import io.nuls.base.basic.NulsOutputStreamBuffer;
 import io.nuls.base.data.BaseNulsData;
 import io.nuls.core.exception.NulsException;
+import io.nuls.core.model.StringUtils;
 import io.nuls.core.parse.SerializeUtils;
 
 import java.io.IOException;
@@ -47,6 +48,8 @@ public class RechargeTxData extends BaseNulsData {
 
     private int heterogeneousChainId;
 
+    private String extend;
+
     public RechargeTxData() {
     }
 
@@ -63,6 +66,9 @@ public class RechargeTxData extends BaseNulsData {
     protected void serializeToStream(NulsOutputStreamBuffer stream) throws IOException {
         stream.writeString(this.originalTxHash);
         stream.writeUint16(this.heterogeneousChainId);
+        if (StringUtils.isNotBlank(extend)) {
+            stream.writeString(extend);
+        }
     }
 
     @Override
@@ -71,6 +77,9 @@ public class RechargeTxData extends BaseNulsData {
         if (!byteBuffer.isFinished()) {
             this.heterogeneousChainId = byteBuffer.readUint16();
         }
+        if (!byteBuffer.isFinished()) {
+            this.extend = byteBuffer.readString();
+        }
     }
 
     @Override
@@ -78,6 +87,9 @@ public class RechargeTxData extends BaseNulsData {
         int size = 0;
         size += SerializeUtils.sizeOfString(this.originalTxHash);
         size += SerializeUtils.sizeOfUint16();
+        if (StringUtils.isNotBlank(extend)) {
+            size += SerializeUtils.sizeOfString(extend);
+        }
         return size;
     }
 
@@ -97,6 +109,14 @@ public class RechargeTxData extends BaseNulsData {
         this.heterogeneousChainId = heterogeneousChainId;
     }
 
+    public String getExtend() {
+        return extend;
+    }
+
+    public void setExtend(String extend) {
+        this.extend = extend;
+    }
+
     @Override
     public String toString() {
         final StringBuilder sb = new StringBuilder("{");
@@ -104,6 +124,8 @@ public class RechargeTxData extends BaseNulsData {
                 .append('\"').append(originalTxHash).append('\"');
         sb.append(",\"heterogeneousChainId\":")
                 .append(heterogeneousChainId);
+        sb.append(",\"extend\":")
+                .append('\"').append(extend).append('\"');
         sb.append('}');
         return sb.toString();
     }

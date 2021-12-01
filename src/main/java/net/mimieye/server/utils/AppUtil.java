@@ -118,7 +118,7 @@ public class AppUtil {
         }
         Class<? extends BaseNulsData> aClass = DATA_MAP.get(txType);
         if (aClass == null) {
-            return HexUtil.encode(txData);
+            return String.format("{\"data\": \"%s\"}", HexUtil.encode(txData));
         }
         BaseNulsData baseNulsData = aClass.getDeclaredConstructor().newInstance();
         baseNulsData.parse(txData, 0);
