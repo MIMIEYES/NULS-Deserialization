@@ -99,7 +99,7 @@ public class DeserializationController {
                     txDto.setTransactionSignature(JSONUtils.json2map(transactionSignatureJson));
                 }
             }
-            txDataJson = AppUtil.parseTxDataJsonII(tx.getType(), tx.getTxData());
+            txDataJson = AppUtil.parseTxDataJsonII(chainId, tx.getType(), tx.getTxData());
             if(StringUtils.isNotBlank(txDataJson)) {
                 txDto.setTxData(JSONUtils.json2map(txDataJson));
             }
@@ -148,7 +148,7 @@ public class DeserializationController {
         }
         Object txDataObj = null;
         try {
-            String txDataJson = AppUtil.parseTxDataJsonII(txType, HexUtil.decode(txDataHex));
+            String txDataJson = AppUtil.parseTxDataJsonII(chainId, txType, HexUtil.decode(txDataHex));
             if(StringUtils.isNotBlank(txDataJson)) {
                 txDataObj = JSONUtils.json2map(txDataJson);
             }

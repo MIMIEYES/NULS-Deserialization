@@ -115,6 +115,12 @@ public class TxType {
      */
     public static final int CONTRACT_STOP_AGENT = 23;
 
+    public static final int BLOCK_ACCOUNT = 63;
+
+    public static final int UNBLOCK_ACCOUNT = 64;
+
+    /*********************************[NERVE]******************************/
+
     /**
      * 验证人变更
      * Verifier Change
@@ -356,4 +362,11 @@ public class TxType {
      * farm信息更新
      */
     public static final int FARM_UPDATE = 75;
+    public static final int RESET_CHAIN_INFO = 76;
+    /**
+     * 稳定币流动性资产聚合swap交易
+     */
+    public static final int SWAP_STABLE_LP_SWAP_TRADE = 77;
+
+
 }

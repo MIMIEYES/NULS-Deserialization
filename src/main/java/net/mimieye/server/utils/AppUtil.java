@@ -31,6 +31,7 @@ import net.mimieye.core.model.StringUtils;
 import net.mimieye.model.txdata.*;
 import net.mimieye.model.txdata.nerve.*;
 import net.mimieye.model.txdata.nerve.swap.*;
+import net.mimieye.model.txdata.nerve.swap.linkswap.StableLpSwapTradeData;
 import net.mimieye.model.txdata.nerve.swap.stable.CreateStablePairData;
 import net.mimieye.model.txdata.nerve.swap.stable.StableAddLiquidityData;
 import net.mimieye.model.txdata.nerve.swap.stable.StableRemoveLiquidityData;
@@ -110,13 +111,44 @@ public class AppUtil {
         DATA_MAP.put(TxType.SWAP_TRADE_STABLE_COIN, StableSwapTradeData.class);
         DATA_MAP.put(TxType.SWAP_ADD_LIQUIDITY_STABLE_COIN, StableAddLiquidityData.class);
         DATA_MAP.put(TxType.SWAP_REMOVE_LIQUIDITY_STABLE_COIN, StableRemoveLiquidityData.class);
+        DATA_MAP.put(TxType.SWAP_STABLE_LP_SWAP_TRADE, StableLpSwapTradeData.class);
 
     }
-    public static String parseTxDataJsonII(int txType, byte[] txData) throws Exception {
+
+    public static Map<Integer, Class<? extends BaseNulsData>> NULS_DATA_MAP = new HashMap<>();
+    static {
+        NULS_DATA_MAP.put(TxType.ACCOUNT_ALIAS, Alias.class);
+        NULS_DATA_MAP.put(TxType.CONTRACT_CREATE_AGENT, Agent.class);
+        NULS_DATA_MAP.put(TxType.REGISTER_AGENT, Agent.class);
+        NULS_DATA_MAP.put(TxType.CONTRACT_DEPOSIT, Deposit.class);
+        NULS_DATA_MAP.put(TxType.DEPOSIT, Deposit.class);
+        NULS_DATA_MAP.put(TxType.CONTRACT_CANCEL_DEPOSIT, CancelDeposit.class);
+        NULS_DATA_MAP.put(TxType.CANCEL_DEPOSIT, CancelDeposit.class);
+        NULS_DATA_MAP.put(TxType.YELLOW_PUNISH, YellowPunishData.class);
+        NULS_DATA_MAP.put(TxType.RED_PUNISH, RedPunishData.class);
+        NULS_DATA_MAP.put(TxType.CONTRACT_STOP_AGENT, StopAgent.class);
+        NULS_DATA_MAP.put(TxType.STOP_AGENT, StopAgent.class);
+        NULS_DATA_MAP.put(TxType.CROSS_CHAIN, CrossTxData.class);
+        NULS_DATA_MAP.put(TxType.CREATE_CONTRACT, CreateContractData.class);
+        NULS_DATA_MAP.put(TxType.CALL_CONTRACT, CallContractData.class);
+        NULS_DATA_MAP.put(TxType.DELETE_CONTRACT, DeleteContractData.class);
+        NULS_DATA_MAP.put(TxType.CONTRACT_TRANSFER, ContractTransferData.class);
+        NULS_DATA_MAP.put(TxType.VERIFIER_CHANGE, VerifierChangeData.class);
+        NULS_DATA_MAP.put(TxType.VERIFIER_INIT, VerifierInitData.class);
+        NULS_DATA_MAP.put(TxType.BLOCK_ACCOUNT, AccountBlockData.class);
+        NULS_DATA_MAP.put(TxType.UNBLOCK_ACCOUNT, AccountBlockData.class);
+
+    }
+    public static String parseTxDataJsonII(int chainId, int txType, byte[] txData) throws Exception {
         if (txData == null) {
             return null;
         }
-        Class<? extends BaseNulsData> aClass = DATA_MAP.get(txType);
+        Class<? extends BaseNulsData> aClass;
+        if (chainId == 1 || chainId == 2) {
+            aClass = NULS_DATA_MAP.get(txType);
+        } else {
+            aClass = DATA_MAP.get(txType);
+        }
         if (aClass == null) {
             return String.format("{\"data\": \"%s\"}", HexUtil.encode(txData));
         }
