@@ -108,7 +108,7 @@ public class AccountBlockData extends BaseNulsData {
         }
         sb.deleteCharAt(sb.length() - 1);
         sb.append("],\"extend\":")
-                .append(extend == null ? null : HexUtil.encode(extend));
+                .append("\"").append(extend == null ? null : HexUtil.encode(extend)).append("\"");
         sb.append('}');
         return sb.toString();
     }

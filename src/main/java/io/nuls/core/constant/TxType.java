@@ -368,5 +368,9 @@ public class TxType {
      */
     public static final int SWAP_STABLE_LP_SWAP_TRADE = 77;
 
+    public static final int BLOCK_ACCOUNT_NERVE = 78;
+
+    public static final int UNBLOCK_ACCOUNT_NERVE = 79;
+
 
 }

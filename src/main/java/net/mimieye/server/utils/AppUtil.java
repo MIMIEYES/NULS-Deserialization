@@ -63,7 +63,7 @@ public class AppUtil {
         DATA_MAP.put(TxType.CONTRACT_DEPOSIT, Deposit.class);
         DATA_MAP.put(TxType.DEPOSIT, Deposit.class);
         DATA_MAP.put(TxType.CONTRACT_CANCEL_DEPOSIT, CancelDeposit.class);
-        DATA_MAP.put(TxType.CANCEL_DEPOSIT, CancelDeposit.class);
+        DATA_MAP.put(TxType.CANCEL_DEPOSIT, CancelDepositNerve.class);
         DATA_MAP.put(TxType.YELLOW_PUNISH, YellowPunishData.class);
         DATA_MAP.put(TxType.RED_PUNISH, RedPunishData.class);
         DATA_MAP.put(TxType.CONTRACT_STOP_AGENT, StopAgent.class);
@@ -112,6 +112,8 @@ public class AppUtil {
         DATA_MAP.put(TxType.SWAP_ADD_LIQUIDITY_STABLE_COIN, StableAddLiquidityData.class);
         DATA_MAP.put(TxType.SWAP_REMOVE_LIQUIDITY_STABLE_COIN, StableRemoveLiquidityData.class);
         DATA_MAP.put(TxType.SWAP_STABLE_LP_SWAP_TRADE, StableLpSwapTradeData.class);
+        DATA_MAP.put(TxType.BLOCK_ACCOUNT_NERVE, AccountBlockData.class);
+        DATA_MAP.put(TxType.UNBLOCK_ACCOUNT_NERVE, AccountBlockData.class);
 
     }
 
