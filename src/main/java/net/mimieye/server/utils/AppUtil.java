@@ -97,6 +97,9 @@ public class AppUtil {
         DATA_MAP.put(TxType.WITHDRAWAL_ADDITIONAL_FEE, WithdrawalAdditionalFeeTxData.class);
         DATA_MAP.put(TxType.WITHDRAWAL_HETEROGENEOUS_SEND, WithdrawalHeterogeneousSendTxData.class);
         DATA_MAP.put(TxType.WITHDRAWAL, WithdrawalTxData.class);
+        DATA_MAP.put(TxType.ONE_CLICK_CROSS_CHAIN_UNCONFIRMED, OneClickCrossChainUnconfirmedTxData.class);
+        DATA_MAP.put(TxType.ONE_CLICK_CROSS_CHAIN, OneClickCrossChainTxData.class);
+        DATA_MAP.put(TxType.ADD_FEE_OF_CROSS_CHAIN_BY_CROSS_CHAIN, WithdrawalAddFeeByCrossChainTxData.class);
 
         //SWAP
         DATA_MAP.put(TxType.CREATE_SWAP_PAIR, CreatePairData.class);
