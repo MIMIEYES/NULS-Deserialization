@@ -32,6 +32,7 @@ import net.mimieye.model.txdata.*;
 import net.mimieye.model.txdata.nerve.*;
 import net.mimieye.model.txdata.nerve.swap.*;
 import net.mimieye.model.txdata.nerve.swap.linkswap.StableLpSwapTradeData;
+import net.mimieye.model.txdata.nerve.swap.linkswap.SwapTradeStableRemoveLpData;
 import net.mimieye.model.txdata.nerve.swap.stable.CreateStablePairData;
 import net.mimieye.model.txdata.nerve.swap.stable.StableAddLiquidityData;
 import net.mimieye.model.txdata.nerve.swap.stable.StableRemoveLiquidityData;
@@ -115,6 +116,7 @@ public class AppUtil {
         DATA_MAP.put(TxType.SWAP_ADD_LIQUIDITY_STABLE_COIN, StableAddLiquidityData.class);
         DATA_MAP.put(TxType.SWAP_REMOVE_LIQUIDITY_STABLE_COIN, StableRemoveLiquidityData.class);
         DATA_MAP.put(TxType.SWAP_STABLE_LP_SWAP_TRADE, StableLpSwapTradeData.class);
+        DATA_MAP.put(TxType.SWAP_TRADE_SWAP_STABLE_REMOVE_LP, SwapTradeStableRemoveLpData.class);
         DATA_MAP.put(TxType.BLOCK_ACCOUNT_NERVE, AccountBlockData.class);
         DATA_MAP.put(TxType.UNBLOCK_ACCOUNT_NERVE, AccountBlockData.class);
 
