@@ -30,7 +30,7 @@ import net.mimieye.core.crypto.HexUtil;
 import net.mimieye.core.model.StringUtils;
 import net.mimieye.model.txdata.*;
 import net.mimieye.model.txdata.nerve.*;
-import net.mimieye.model.txdata.nerve.dex.CoinTrading;
+import net.mimieye.model.txdata.nerve.dex.*;
 import net.mimieye.model.txdata.nerve.swap.*;
 import net.mimieye.model.txdata.nerve.swap.linkswap.StableLpSwapTradeData;
 import net.mimieye.model.txdata.nerve.swap.linkswap.SwapTradeStableRemoveLpData;
@@ -123,6 +123,11 @@ public class AppUtil {
 
         //DEX
         DATA_MAP.put(TxType.COIN_TRADING, CoinTrading.class);
+        DATA_MAP.put(TxType.TRADING_ORDER, TradingOrder.class);
+        DATA_MAP.put(TxType.TRADING_ORDER_CANCEL, TradingOrderCancel.class);
+        DATA_MAP.put(TxType.TRADING_DEAL, TradingDeal.class);
+        DATA_MAP.put(TxType.EDIT_COIN_TRADING, EditCoinTrading.class);
+        DATA_MAP.put(TxType.ORDER_CANCEL_CONFIRM, TradingCancelTxData.class);
 
     }
 
